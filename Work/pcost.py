@@ -17,11 +17,14 @@
 #Total cost 44671.15
 #```
 
-purchaseCost = 0
-import gzip
-with gzip.open('Data/portfolio.csv.gz', 'rt') as dataSheet:
-    headers = next(dataSheet)
-    for line in dataSheet:
-        row = line.split(',')
-        purchaseCost = purchaseCost + int(row[1]) * float(row[2])
+def portfolio_cost(file):
+    cost = 0
+    with open(file, 'rt') as dataSheet:
+        next(dataSheet)
+        for line in dataSheet:
+            row = line.split(',')
+            cost = cost + int(row[1]) * float(row[2])
+    return cost
+
+purchaseCost = portfolio_cost('Data/portfolio.csv')
 print(purchaseCost)
