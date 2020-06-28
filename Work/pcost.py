@@ -17,6 +17,8 @@
 #Total cost 44671.15
 #```
 
+import sys
+
 def portfolio_cost(file):
     cost = 0
     with open(file, 'rt') as dataSheet:
@@ -26,5 +28,10 @@ def portfolio_cost(file):
             cost = cost + int(row[1]) * float(row[2])
     return cost
 
-purchaseCost = portfolio_cost('Data/portfolio.csv')
+if len(sys.argv) == 2:
+    filename = sys.argv[1]
+else:
+    filename = 'Data/portfolio.csv'
+
+purchaseCost = portfolio_cost(filename)
 print(purchaseCost)
