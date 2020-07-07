@@ -33,6 +33,14 @@ def read_prices(file):
     print
     return rowsNoBlanks
 
+def make_report(currentPortfolio,currentPrice):
+    report = []
+    for item in currentPortfolio:
+        diff = item['shares']*item['price']-item['shares']*currentPrice[item['name'].strip('"')]
+        row = item['name'].strip('"'),item['shares'],item['price'],diff
+        report.append(row)
+    return report
+
 #default filenames unless recieved as args
 if len(sys.argv) == 3:
     filename1 = sys.argv[1]
@@ -44,10 +52,6 @@ else:
 #get vals
 portfolioFull = read_portfolio(filename1)
 prices = read_prices(filename2)
-
-#print nicely for debug
-#pprint.pprint(portfolioFull)
-#pprint.pprint(prices)
 
 #find ROI
 investment = 0.0
@@ -61,3 +65,13 @@ for item in portfolioFull:
 print('Your portfolio cost: £',investment)
 print('Your portfolio is worth: £',currentValue)
 print('This portfolio has changed by: £',round((currentValue - investment),2)) 
+#print nicely for debug
+#pprint.pprint(portfolioFull)
+#pprint.pprint(prices)
+
+report = make_report(portfolioFull,prices)
+headers = ('Name', 'Shares', 'Price', 'Change')
+print('%10s %10s %10s %10s' % headers)
+print(('-' * 10 + ' ') * len(headers))
+for row in report:
+    print('%10s %10d %10.2f %10.2f' % row)
